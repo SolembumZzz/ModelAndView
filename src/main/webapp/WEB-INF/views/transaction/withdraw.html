@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="layouts/header.html :: head"></th:block>
+    <title>Withdraw</title>
+</head>
+<body>
+<div class="container">
+    <div class="table-title">
+        <div class="row justify-content-around">
+            <div class="col">
+                <h1>Withdraw</h1>
+            </div>
+            <th:block th:replace="layouts/back-to-list.html :: back-to-list"></th:block>
+        </div>
+    </div>
+    <form method="post" th:object="${withdraw}" novalidate="novalidate">
+        <fieldset class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Customer ID</label>
+                <input class="form-control" type="number" name="customerID" id="customerID"
+                       th:value="*{customer.id}" readonly>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input class="form-control" type="text" name="fullName" id="fullName"
+                       th:value="*{customer.fullName}" readonly>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Current balance ($)</label>
+                <input class="form-control" type="tel" name="currentBalance" id="currentBalance"
+                       th:value="*{customer.balance}" readonly>
+            </div>
+            <div class="col-md-6">
+                <label for="transactionAmount" class="form-label">Transaction Amount ($)</label>
+                <input class="form-control" type="number" name="transactionAmount" id="transactionAmount"
+                       th:field="*{transactionAmount}">
+            </div>
+            <div>
+                <button id="btnCrtNewCus" class="btn btn-outline-warning" type="submit">
+                    <i class="fa fa-minus"></i>
+                    Withdraw
+                </button>
+            </div>
+        </fieldset>
+    </form>
+    <th:block th:if="${success != null}">
+        <th:block th:replace="layouts/notification.html :: warning(${#fields.errors('withdraw.*')})"></th:block>
+    </th:block>
+</div>
+
+
+<th:block th:replace="layouts/script.html :: script"></th:block>
+</body>
+</html>

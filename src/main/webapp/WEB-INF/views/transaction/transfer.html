@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="layouts/header.html :: head"></th:block>
+    <title>Transfer</title>
+</head>
+<body>
+<div class="container">
+    <div class="table-title">
+        <div class="row justify-content-around">
+            <div class="col">
+                <h1>Transfer</h1>
+            </div>
+            <th:block th:replace="layouts/back-to-list.html :: back-to-list"></th:block>
+        </div>
+    </div>
+
+    <form method="post" th:object="${transfer}" novalidate="novalidate">
+        <fieldset class="row g-3">
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Sender ID</label>
+                <input class="form-control" type="text" name="senderID" id="senderID"
+                       th:value="*{sender.id}" readonly>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Sender Name</label>
+                <input class="form-control" type="text" name="senderName" id="senderName"
+                       th:value="*{sender.fullName}" readonly>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" name="email" id="email"
+                       th:value="*{sender.email}" readonly>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Sender balance</label>
+                <input class="form-control" type="text" name="senderBalance" id="senderBalance"
+                       th:value="*{sender.balance}" readonly>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label for="recipientId" class="form-label">Recipient</label>
+                <select class="form-select" name="recipientId" id="recipientId">
+                    <option selected disabled value="0">Choose recipient</option>
+                    <th:block th:each="item : ${recipients}">
+                        <option th:value="${item.id}"
+                                th:text="'('+ ${item.id} + ') ' + ${item.fullName}">
+<!--                                th:selected="${(transfer.getRecipient().getId() == item.id) }">-->
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label for="transactionAmount" class="form-label">Transfer Amount ($)</label>
+                <input class="form-control" type="text" name="transactionAmount" id="transactionAmount"
+                       th:field="*{transactionAmount}">
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Fees (%)</label>
+                <input class="form-control" type="text" name="fee" id="fee"
+                       th:value="*{fee}" readonly>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Total amount of transaction ($)</label>
+                <input class="form-control" type="text" name="totalTransaction" id="totalTransaction"
+                       value='0' readonly>
+            </div>
+            <div class="col-md-12">
+                <button id="btnCrtNewCus" class="btn btn-outline-primary" type="submit">
+                    <i class="fa fa-exchange"></i>
+                    Transfer
+                </button>
+            </div>
+        </fieldset>
+    </form>
+    <th:block th:if="${success != null}">
+        <th:block th:replace="layouts/notification.html :: warning(${#fields.errors('transfer.*')})"></th:block>
+    </th:block>
+</div>
+
+<th:block th:replace="layouts/script.html :: script"></th:block>
+<script>
+    $("#transactionAmount").on("input", function () {
+        let transactionAmount = parseInt($("#transactionAmount").val());
+        let totalTransaction = transactionAmount * (100 + parseInt($("#fee").val()))/100;
+
+        if (Number.isNaN(totalTransaction)) {
+            $("#totalTransaction").val(0);
+        } else {
+            $("#totalTransaction").val(Math.round(totalTransaction));
+        }
+    });
+</script>
+</body>
+</html>

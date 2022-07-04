@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="layouts/header.html :: head"></th:block>
+    <title>Transfer History</title>
+</head>
+<body>
+<div class="container">
+    <div class="table-title">
+        <div class="row justify-content-around">
+            <div class="col">
+                <h1>Transfer history</h1>
+            </div>
+            <th:block th:replace="layouts/back-to-list.html :: back-to-list"></th:block>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Sender ID</th>
+            <th class="text-center">Sender Name</th>
+            <th class="text-center">Recipient ID</th>
+            <th class="text-center">Recipient Name</th>
+            <th class="text-center">Transfer Amount ($)</th>
+            <th class="text-center">Fees (%)</th>
+            <th class="text-center">Fees Amount ($)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transfer : ${transferList}">
+            <td class="text-center" th:text="${transfer.id}"></td>
+            <td class="text-center" th:text="${transfer.sender.id}"></td>
+            <td th:text="${transfer.sender.fullName}"></td>
+            <td class="text-center" th:text="${transfer.recipient.id}"></td>
+            <td th:text="${transfer.recipient.fullName}"></td>
+            <td class="text-end" th:text="${transfer.transactionAmount}"></td>
+            <td class="text-center" th:text="${transfer.fee}"></td>
+            <td class="text-end" th:text="${transfer.feeAmount}"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5"></td>
+            <td class="text-center fw-bold">Total Fees Amount</td>
+            <td class="text-end fw-bold" colspan="2" style="font-size: 24px" th:text="${totalAmount}"></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<th:block th:replace="layouts/script.html :: script"></th:block>
+</body>
+</html>

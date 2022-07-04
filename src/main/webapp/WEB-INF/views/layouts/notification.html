@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th:block th:fragment="warning(errors)" th:switch="${success}">
+
+    <div th:case="true" class="fixed-bottom alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Success! </strong>
+        <p th:text="${message}"></p>
+    </div>
+
+    <!--    <div th:case="'1'" class="fixed-bottom alert alert-warning alert-dismissible">-->
+    <!--        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>-->
+    <!--        <strong>Warning! </strong><th:block th:text="${messages}"></th:block>-->
+    <!--    </div>-->
+
+    <div th:case="false" class="fixed-bottom alert alert-danger alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Error! </strong><br>
+<!--        <ul th:each="err : ${#fields.errors('customerDTO.*')}">-->
+        <ul th:each="err : ${errors}">
+            <li th:text="${err}"></li>
+        </ul>
+    </div>
+
+</th:block>

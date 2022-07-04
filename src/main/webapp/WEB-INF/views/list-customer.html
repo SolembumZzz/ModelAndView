@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="layouts/header.html :: head"></th:block>
+    <title>Customer List</title>
+</head>
+<body>
+<div class="container">
+
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-5">
+                <h1>List of customers</h1>
+            </div>
+            <div class="col-sm-7">
+                <a class="btn btn-outline-light" href="/create">
+                    <i class="far fa-plus-square"></i>
+                    <span>Add new customer</span>
+                </a>
+                <a class="btn btn-outline-light" href="/transfer-history">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Transfer history</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>FullName</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Balance</th>
+            <th colspan="5">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customerList}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.fullName}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.phone}" style="text-align: right"></td>
+            <td th:text="${customer.address}"></td>
+            <td th:text="${customer.balance}" style="text-align: right"></td>
+            <td class="col text-center" colspan="5">
+                <a class="btn btn-outline-secondary" title="Edit"
+                   th:href="@{/{id}/edit(id=${customer.id})}">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a class="btn btn-outline-success" title="Deposit"
+                   th:href="@{/{id}/deposit(id=${customer.id})}">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                <a class="btn btn-outline-warning" title="Withdraw"
+                   th:href="@{/{id}/withdraw(id=${customer.id})}">
+                    <i class="fa-solid fa-minus"></i>
+                </a>
+                <a class="btn btn-outline-primary" title="Transfer"
+                   th:href="@{/{id}/transfer(id=${customer.id})}">
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                </a>
+                <a class="btn btn-outline-danger" title="Suspend"
+                   th:href="@{/{id}/suspend(id=${customer.id})}">
+                    <i class="fa-solid fa-ban"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="layouts/script.html :: script"></th:block>
+</body>
+</html>
